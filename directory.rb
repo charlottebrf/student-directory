@@ -16,6 +16,17 @@ def input_students
   students
 end
 
+def sorts_students(students)
+  sorted_students = []
+  students.each do |student|
+    value = student[:name]
+    if value[0] == "C" || value[0] == "c"
+      sorted_students << student
+    end
+  end
+  sorted_students
+end
+
 
 def print_header
   puts "The students of Villains Academy"
@@ -34,6 +45,8 @@ end
 
 #nothing happens until we call the methods
 students = input_students
+sorts_students(students)
+students = sorts_students(students)
 print_header
 print(students)
 print_footer(students)
