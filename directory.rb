@@ -20,7 +20,7 @@ def sorts_students(students)
   sorted_students = []
   students.each do |student|
     name = student[:name]
-    if name[0] == "C" || name[0] == "c"
+    if name.length < 12
       sorted_students << student
     end
   end
