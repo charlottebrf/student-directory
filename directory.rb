@@ -19,8 +19,8 @@ end
 def sorts_students(students)
   sorted_students = []
   students.each do |student|
-    value = student[:name]
-    if value[0] == "C" || value[0] == "c"
+    name = student[:name]
+    if name[0] == "C" || name[0] == "c"
       sorted_students << student
     end
   end
