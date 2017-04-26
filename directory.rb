@@ -18,10 +18,10 @@ def input_students
   #create an empty array
   students = []
   #get the first name
-  name = gets.chomp
-  age = gets.chomp
-  nationality = gets.chomp
-  studies = gets.chomp
+  name = gets.chop
+  age = gets.chop
+  nationality = gets.chop
+  studies = gets.chop
   #while the name is not empty, repeat this code
   while !name.empty? && !age.empty? && !nationality.empty? && !studies.empty? do
     #add the student hash to the array
@@ -31,10 +31,10 @@ def input_students
     else
       centers("Now we have #{students.count} students")
     end
-    name = gets.chomp
-    age = gets.chomp
-    nationality = gets.chomp
-    studies = gets.chomp
+    name = gets.chop
+    age = gets.chop
+    nationality = gets.chop
+    studies = gets.chop
   end
   #return the array of students
   students
