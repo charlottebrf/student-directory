@@ -26,7 +26,11 @@ def input_students
   while !name.empty? && !age.empty? && !nationality.empty? && !studies.empty? do
     #add the student hash to the array
     students << {name: name, age: age, nationality: nationality, studies: studies, cohort: :november}
-    centers("Now we have #{students.count} students")
+    if students.count == 1
+      centers("Now we have #{students.count} student")
+    else
+      centers("Now we have #{students.count} students")
+    end
     name = gets.chomp
     age = gets.chomp
     nationality = gets.chomp
@@ -35,6 +39,63 @@ def input_students
   #return the array of students
   students
 end
+
+
+#Exercise 7: commented out workings
+# def input_students
+#
+#  student_answers = []
+#   student_answers << name = "charlotte"
+#   student_answers << age = 18
+#   student_answers << nationality = "British"
+#   student_answers << studies = ""
+#   student_answers << cohort = "November"
+#
+#   default_answers = []
+#   student_answers.each do |answer|
+#     if answer == ""
+#       default_answers <<  answer = "none"
+#   end
+# end
+#
+#   p default_answers
+#
+# end
+
+#   student_answers << {name: name, age: age, nationality: nationality, studies: studies, cohort: cohort}
+#   p student_answers
+
+
+#   empty_keys = []
+#   student_answers.each do |answer|
+#     answer.each do |key, value|
+#       if value == ""
+#       empty_keys << key
+#     end
+#   end
+# end
+
+# p empty_keys
+
+
+
+# #take each key & reassign it to a new hash with a default answer
+# default_answers = []
+# empty_keys.each do |key|
+#   if key[name] == true
+#   default_answers << name_hash = {name => "Codey Mc CodeFace"}
+#   elsif key[age] == true
+#   default_answers << age_hash = {age => 21}
+#   elsif key[nationality] == true
+#   default_answers << nationality_hash = {nationality => "Mexican"}
+#   elsif key[studies] == true
+#   default_answers << studies_hash = {studies => "Makers academy"}
+#   elsif key[cohort] == true
+#   default_answers cohort_hash = {cohort => "November"}
+# end
+
+# p default_answers
+# end
 
 
 def sorts_students(students)
@@ -65,7 +126,11 @@ def print(students)
 end
 
 def print_footer(students)
-  centers("Overall, we have #{students.count} great students")
+  if students.count == 1
+    centers("Overall, we have #{students.count} great student")
+  else
+    centers("Now we have #{students.count} students")
+  end
 end
 
 
