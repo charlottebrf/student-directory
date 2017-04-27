@@ -4,98 +4,89 @@ end
 #Exercise 8:6 see note at the end on refactoring this method
 
 def asks_question(question)
-  centers("Please enter the #{question} of the students")
+  centers("Please enter the #{question} of the student:")
+  answer = gets.chomp
+  if answer.empty?
+    "none"
+  else
+    answer
+  end
 end
 
-def input_students
+def gets_name()
   asks_question("names")
-  asks_question("ages")
-  asks_question("nationalities")
-  asks_question("previous studies")
-  centers("To finish, just hit return five times")
-  #Exercise 8:5: refactor the code so that you don't have to hit return 5 times & perhaps to have each question appear separately, rather than as a list at the top
+end
 
-  #create an empty array
-  students = []
-  #get the first name
-  name = gets.chop
-  age = gets.chop
-  nationality = gets.chop
-  studies = gets.chop
-  #while the name is not empty, repeat this code
-  while !name.empty? && !age.empty? && !nationality.empty? && !studies.empty? do
-    #add the student hash to the array
-    students << {name: name, age: age, nationality: nationality, studies: studies, cohort: :november}
-    if students.count == 1
-      centers("Now we have #{students.count} student")
-    else
-      centers("Now we have #{students.count} students")
-    end
-    name = gets.chop
-    age = gets.chop
-    nationality = gets.chop
-    studies = gets.chop
+def gets_age()
+  asks_question("age")
+end
+
+def gets_nationality()
+  asks_question("nationalities")
+end
+
+def gets_studies()
+  asks_question("previous studies")
+end
+
+COHORTS_HASH = {"january" => :january, "february" => :february, "march" => :march, "april" => :april, "may" => :may, "june" => :june, "july" => :july, "august" => :august, "september" => :september, "october" => :october, "november" => :november, "december" => :december}
+
+def gets_cohort()
+  answer = asks_question("cohort").downcase
+  if COHORTS_HASH.has_key?(answer)
+    COHORTS_HASH[answer]
+  else
+    "none"
   end
-  #return the array of students
+end
+
+def get_student()
+  name = gets_name()
+  age = gets_age()
+  nationality = gets_nationality()
+  studies = gets_studies()
+  cohort = gets_cohort()
+
+  if name == "none" && age == "none" && nationality == "none" && studies == "none" && cohort == "none"
+    :no_student
+  else
+    {name: name, age: age, nationality: nationality, studies: studies, cohort: cohort}
+  end
+end
+
+def print_student_count(students)
+  if students.count == 1
+    centers("Now we have #{students.count} student")
+  else
+    centers("Now we have #{students.count} students")
+  end
+end
+
+def input_students()
+  students = []
+  student = get_student()
+  while student != :no_student do
+    students << student
+    print_student_count(students)
+
+    if exit_program?()
+      student = :no_student
+    else
+      student = get_student()
+    end
+  end
   students
 end
 
-
-#Exercise 7: commented out workings
-# def input_students
-#
-#  student_answers = []
-#   student_answers << name = "charlotte"
-#   student_answers << age = 18
-#   student_answers << nationality = "British"
-#   student_answers << studies = ""
-#   student_answers << cohort = "November"
-#
-#   default_answers = []
-#   student_answers.each do |answer|
-#     if answer == ""
-#       default_answers <<  answer = "none"
-#   end
-# end
-#
-#   p default_answers
-#
-# end
-
-#   student_answers << {name: name, age: age, nationality: nationality, studies: studies, cohort: cohort}
-#   p student_answers
-
-
-#   empty_keys = []
-#   student_answers.each do |answer|
-#     answer.each do |key, value|
-#       if value == ""
-#       empty_keys << key
-#     end
-#   end
-# end
-
-# p empty_keys
-
-
-
-# #take each key & reassign it to a new hash with a default answer
-# default_answers = []
-# empty_keys.each do |key|
-#   if key[name] == true
-#   default_answers << name_hash = {name => "Codey Mc CodeFace"}
-#   elsif key[age] == true
-#   default_answers << age_hash = {age => 21}
-#   elsif key[nationality] == true
-#   default_answers << nationality_hash = {nationality => "Mexican"}
-#   elsif key[studies] == true
-#   default_answers << studies_hash = {studies => "Makers academy"}
-#   elsif key[cohort] == true
-#   default_answers cohort_hash = {cohort => "November"}
-# end
-
-# p default_answers
-# end
+def exit_program?()
+  centers("To stop answering questions about students and quit press 'Q'.")
+  answer = gets.chomp
+  if answer == "Q"
+    true
+  else
+    false
+  end
+end
 
 
 def sorts_students(students)
