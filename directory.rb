@@ -100,6 +100,13 @@ def sorts_students(students)
   sorted_students
 end
 
+#Exercise 8:7- still working to make this function
+# def sorts_cohorts(students)
+# sorted_by_month = []
+# students.select {|student| sorted_by_month <<  student if student[:cohort] == :november }
+# p sorted_by_month
+# end
+
 
 def print_header
   centers("The students of Villains Academy")
