@@ -124,7 +124,9 @@ def print(students)
 end
 
 def print_footer(students)
-  if students.count == 1
+  if students.count == 0
+    centers("You have not added any students. Please start the program again and be sure to answer the questions!")
+  elsif students.count == 1
     centers("Overall, we have #{students.count} great student")
   else
     centers("Now we have #{students.count} students")
