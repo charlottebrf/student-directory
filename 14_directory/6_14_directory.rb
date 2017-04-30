@@ -3,8 +3,8 @@
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to students_list.csv"
+  puts "4. Load the list from students_list.csv"
   puts "9. Exit" #9 because we'll be adding more items
 end
 
@@ -69,45 +69,44 @@ def print_footer
 end
 
 def save_students
-  file = File.open("students.csv", "w") {|file| file.puts @csv_line } #should the block be at the top next to this?
-
-  @csv_line = []
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    @csv_line = student_data.join(",")
+  File.open("students_list.csv", mode="w") do |file|
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
 end
 
 
-def load_students(filename = "students.csv")
-  file = File.open("students.csv", "r") { |file| file.lines} #this is incorrect- can't call readlines as a private method
-
-  # #I think I need to assign the reult of this similar to above- however, I'm not 'puts' the result
-  # lines = file.readlines.each do |line| ?? - but then where does lines var in the file read block?
+def load_students(filename = "students_list.csv")
+  File.open("students_list.csv", mode="r") do |file|
     file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    @students << {name: name, cohort: cohort.to_sym}
+      puts line
+      name, cohort = line.chomp.split(',')
+      @students << {name: name, cohort: cohort.to_sym}
     end
+  end
 end
 
 
-  def try_load_students
-    filename = ARGV.first #first argument from the command line
-    return if filename.nil? #get out of the method if it isn't given
-    if File.exists?(filename)
-      load_students(filename)
-      puts "Loaded #{@students.count} from #{filename}"
-    else #if it doesn't exist
-      puts "Sorry, #{filename} doesn't exist."
-      exit #quit the program
-    end
+def try_load_students
+  filename = ARGV.first #first argument from the command line
+  return if filename.nil? #get out of the method if it isn't given
+  if File.exists?(filename)
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
+  else #if it doesn't exist
+    puts "Sorry, #{filename} doesn't exist."
+    exit #quit the program
   end
+end
 
 
 
-  try_load_students
-  interactive_menu
+try_load_students
+interactive_menu
 
 # Documentation on opening & closing files using a block
-  # https://ruby-doc.org/core-2.1.4/File.html#method-c-open
-  #http://ruby.bastardsbook.com/chapters/io/
+# https://ruby-doc.org/core-2.1.4/File.html#method-c-open
+#http://ruby.bastardsbook.com/chapters/io/
