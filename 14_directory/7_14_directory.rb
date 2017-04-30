@@ -1,5 +1,5 @@
 require 'csv'
-@students_file = CSV.read('students.csv')
+
 #create a the filebeing read as a instance variable that can be accessed across other methods
 # in `initialize': no implicit conversion of Array into String (TypeError)
 
@@ -74,29 +74,19 @@ def print_footer
 end
 
 def save_students
-  # CSV.parse(File.read(@students_file))
-  #iterate over the array of students
-  CSV.foreach(@students_file) do row
+  CSV.open("students.csv", "w") do |csv|
     @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      @students.puts csv_line #write the above line to the file
-    end
+       csv << [student[:name], student[:cohort]]
+     end
+   end
+ end
+
+def load_students
+  CSV.foreach("students.csv") do |row|
+    name, cohort = row
+    @students << {name: name, cohort: cohort.to_sym}
   end
 end
-
-
-# in `initialize': no implicit conversion of Array into String (TypeError)
-
-def load_students(filename = @students_file )
-  CSV.foreach(@students_file) do row
-    @stdudents_file.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
-      @students << {name: name, cohort: cohort.to_sym}
-    end
-  end
-end
-
 
 def try_load_students
   filename = ARGV.first #first argument from the command line
