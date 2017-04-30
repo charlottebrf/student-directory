@@ -38,22 +38,31 @@ def gets_name
   STDIN.gets.chomp
 end
 
+def stores_cohort
+  :november
+end
+
 def stores_student
   name = gets_name()
-  @students << {name: name, cohort: :november}# the error is with the conversion of the cohort to a symbol cohort.to_sym
+  cohort = stores_cohort()
+
+  if name == ""
+    :no_student
+  else
+     {name: name, cohort: cohort}# the error is with the conversion of the cohort to a symbol cohort.to_sym
+   end
 end
 
 
 def input_students
-  #get the first name
-  name = gets_name()
-  #while the name is not empty, repeat this code
-  while !name.empty? do
-    #add the student hash to the array
-    @students << stores_student()
-    puts "Now we have #{@students.count} students" #this stores every other student rather than every one- doesn't display on the first
-    #get another name from the user
-    name = gets_name() #is this still correct given that I've now created the gets_name() ?
+  #get the first student
+  student = stores_student()
+  #while the student name is not empty, repeat this code
+  while student != :no_student do
+    @students << student #add the student to the array of students
+    puts "Now we have #{@students.count} students"
+    #get another student from the user
+    student = stores_student()
   end
 end
 
@@ -91,11 +100,14 @@ def save_students
 end
 
 
-def load_students(filename = "students.csv")
-  file = File.open("students.csv", "r")
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    @students << stores_student()
+#Have refactored code but haven't got rid of all repetition- this method has remained the same
+#Technically stores_student is no serving a different purpose to l.110? 
+
+def load_students(filename = "students.csv") #takes the csv file
+  file = File.open("students.csv", "r") #opens the file to read it
+  file.readlines.each do |line| #read all lines into an array- iterate over each element
+    name, cohort = line.chomp.split(',') #discard \n at end, split it at comma- now an array with 2 elements: name : cohort
+    @students << {name: name, cohort: cohort.to_sym} #create new hash put it into students  #does that need to be shoveled in?
   end
   file.close
 end
@@ -104,7 +116,7 @@ end
 def try_load_students
   filename = ARGV.first #first argument from the command line
   return if filename.nil? #get out of the method if it isn't given
-  if File.exits?(filename)
+  if File.exists?(filename)
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
   else #if it doesn't exist
@@ -118,24 +130,3 @@ end
 
 try_load_students
 interactive_menu
-
-# First:
-#input_sttudents
-#this stores every other student rather than every one- doesn't display on the first
-
-
-#
-# Second:
-#when I select 2.Show the students or, 3. Save the list to students.csv, or
-# # Can't show the students- no implicit conversion of Symbol into Integer (TypeError)
-# Felipe (november cohort)
-# 1_14_directory.rb:73:in `[]': no implicit conversion of Symbol into Integer (TypeError)
-# 	from 1_14_directory.rb:73:in `block in print_student_list'
-# 	from 1_14_directory.rb:72:in `each'
-# 	from 1_14_directory.rb:72:in `print_student_list'
-# 	from 1_14_directory.rb:62:in `show_students'
-# 	from 1_14_directory.rb:23:in `process'
-# 	from 1_14_directory.rb:14:in `block in interactive_menu'
-# 	from 1_14_directory.rb:12:in `loop'
-# 	from 1_14_directory.rb:12:in `interactive_menu'
-# 	from 1_14_directory.rb:120:in `<main>'
